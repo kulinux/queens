@@ -1,7 +1,3 @@
-case class Queen(x: Int, y: Int)
-
-case class Board(queens: Seq[Queen])
-
 class Checker {
   def check(board: Board): Boolean = {
     if (board.queens.isEmpty) return true
@@ -12,9 +8,3 @@ class Checker {
     return sameColumn && sameRow && sameDiag
   }
 }
-
-@main def hello(): Unit =
-  println("Hello world!")
-  println(msg)
-
-def msg = "I was compiled by Scala 3. :)"
