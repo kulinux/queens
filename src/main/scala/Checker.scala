@@ -7,4 +7,7 @@ class Checker {
       board.queens.groupBy(q => q.x - q.y).map(_._2).exists(_.size <= 1)
     return sameColumn && sameRow && sameDiag
   }
+
+  def checkQueens(queens: Seq[Queen]): Boolean = ???
+
 }
