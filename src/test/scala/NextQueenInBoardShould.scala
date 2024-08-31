@@ -16,7 +16,7 @@ class NextQueenInBoardShould
     val expected = Queen(0, 0)
     (checker.checkQueens).expects(Seq(expected)).returning(true)
 
-    nextQueenInBoard.next(empty) shouldBe expected
+    nextQueenInBoard.next(empty).get shouldBe expected
   }
 
   test("one queen should find the next free valid slot") {
@@ -27,6 +27,15 @@ class NextQueenInBoardShould
     (checker.checkQueens).expects(Seq(initialQueen, expected)).returning(true)
     (checker.checkQueens).expects(*).returning(false).anyNumberOfTimes()
 
-    nextQueenInBoard.next(oneQueenBoard) shouldBe expected
+    nextQueenInBoard.next(oneQueenBoard).get shouldBe expected
+  }
+
+  test("next position is not always possible") {
+    val initialQueen = Queen(0, 0)
+    val oneQueenBoard = Board(Seq(initialQueen))
+
+    (checker.checkQueens).expects(*).returning(false).anyNumberOfTimes()
+
+    nextQueenInBoard.next(oneQueenBoard) shouldBe empty
   }
 }
