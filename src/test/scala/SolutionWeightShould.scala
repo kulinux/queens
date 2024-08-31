@@ -11,7 +11,7 @@ class SolutionWeightShould extends AnyFunSuite with MockFactory {
     assert(0 == solutionWeight.numberOfAttackingQueens(board))
   }
 
-  test("should be 1 for an two queens in the same row") {
+  test("should be 2 for an two queens in the same row") {
     val q1 = Queen(0, 2)
     val q2 = Queen(0, 6)
 
