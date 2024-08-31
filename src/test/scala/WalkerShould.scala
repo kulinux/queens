@@ -1,17 +1,29 @@
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.funsuite.AnyFunSuite
 import cats.data.State
+import org.scalatest.matchers.should.Matchers
 
 object StateUtil {
-  def freePosition(board: Board): Queen = ???
+  val checker = Checker()
+  val nextQueenInBoard = NextQueenInBoard(checker)
+  def freePosition(board: Board): Queen = nextQueenInBoard.next(board).get
 }
 
-class WalkerShould extends AnyFunSuite with MockFactory {
-  test("foo") {
-    val state: State[Board, Unit] =
-      State(board => (board.add(StateUtil.freePosition(board)), ()))
+class WalkerShould extends AnyFunSuite with MockFactory with Matchers {
+  val state: State[Board, Unit] =
+    State(board => (board.add(StateUtil.freePosition(board)), ()))
 
+  test("empty board") {
     val emptyBoard = Board.empty()
+    val expected = Board(Seq(Queen(0, 0)))
 
+    state.run(emptyBoard).value._1 shouldBe expected
+  }
+
+  test("one queen") {
+    val oneQueen = Board(Seq(Queen(0, 0)))
+    val expected = Board(Seq(Queen(0, 0), Queen(2, 1)))
+
+    state.run(oneQueen).value._1 shouldBe expected
   }
 }
