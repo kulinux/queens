@@ -26,12 +26,33 @@ class CheckerShould extends AnyFunSuite {
     assert(actual == false)
   }
 
+
   test("fail over two queens in the same column") {
     val actual =
       check(
         Queen(0, 0),
         Queen(5, 0)
       )
+
+    assert(actual == false)
+  }
+
+  test("true over two queens in the different column, row, and diag") {
+    val actual =
+      check(
+        Queen(0, 0),
+        Queen(2, 1)
+      )
+
+    assert(actual == true)
+  }
+
+  test("fail over two queens in the same column with three elements") {
+    val actual = check(
+      Queen(0, 0),
+      Queen(2, 1),
+      Queen(1, 0)
+    )
 
     assert(actual == false)
   }

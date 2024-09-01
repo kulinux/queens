@@ -30,6 +30,21 @@ class NextQueenInBoardShould
     nextQueenInBoard.next(oneQueenBoard).get shouldBe expected
   }
 
+  test("should skip occupied positions") {
+    val initialQueen = Queen(0, 0)
+    val oneQueenBoard = Board(Seq(initialQueen))
+    val expected = Queen(2, 1)
+
+    (checker.checkQueens).expects(Seq(initialQueen, initialQueen))
+      .returning(true)
+      .anyNumberOfTimes()
+    (checker.checkQueens).expects(Seq(initialQueen, expected))
+      .returning(true)
+    (checker.checkQueens).expects(*).returning(false).anyNumberOfTimes()
+
+    nextQueenInBoard.next(oneQueenBoard).get shouldBe expected
+  }
+
   test("next position is not always possible") {
     val initialQueen = Queen(0, 0)
     val oneQueenBoard = Board(Seq(initialQueen))
