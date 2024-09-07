@@ -53,4 +53,13 @@ class NextQueenInBoardShould
 
     nextQueenInBoard.next(oneQueenBoard) shouldBe empty
   }
+
+  test("empty board with (0, 0) excluded should go for 0, 1") {
+    val empty = Board.empty()
+
+    val expected = Queen(1, 0)
+    (checker.checkQueens).expects(Seq(expected)).returning(true)
+
+    nextQueenInBoard.next(empty, Seq(Queen(0, 0))).get shouldBe expected
+  }
 }
