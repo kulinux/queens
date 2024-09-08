@@ -67,6 +67,16 @@ class CheckerShould extends AnyFunSuite {
     assert(actual == false)
   }
 
+  test("fail over two queens in the same diagonal inverse") {
+    val actual =
+      check(
+        Queen(7, 3),
+        Queen(6, 4)
+      )
+
+    assert(actual == false)
+  }
+
   def check(queens: Queen*): Boolean = {
     return checker.check(
       Board(

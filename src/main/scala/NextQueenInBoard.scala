@@ -19,7 +19,7 @@ class NextQueenInBoard(checker: Checker) {
 
   def nextBoard(board: Board, excluded: Seq[Board] = Seq()): Option[Board] = {
 
-    val allPosition = for { y <- 0 to 7; x <- 0 to 7 } yield (x, y)
+    val allPosition: Seq[Tuple2[Int, Int]] = for { y <- 0 to 7; x <- 0 to 7 } yield (x, y)
 
     val occupiedPosition = board.queens.map(queen => (queen.x, queen.y))
 
