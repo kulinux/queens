@@ -108,6 +108,7 @@ class WalkerWithRollbackShould extends AnyFunSuite with MockFactory with Matcher
 
   import scala.util.control.Breaks._
 
+  //51877 8 List(Queen(0,0), Queen(4,1), Queen(7,2), Queen(5,3), Queen(2,4), Queen(6,5), Queen(1,6), Queen(3,7))
   test("solve") {
     val emptyBoard = Board.empty()
     val initial = Node(emptyBoard, None, Seq())
