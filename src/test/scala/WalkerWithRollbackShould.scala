@@ -115,15 +115,20 @@ class WalkerWithRollbackShould extends AnyFunSuite with MockFactory with Matcher
     var currentNode = initial
 
     breakable  {
-      for(i <- 0 to 100000) {
-        val nextNode = state.runS(currentNode)
+      var i = 0
+      while(true) {
+        val nextNode = StateUtilWithRollback.nextNode(currentNode)
 
-        println(i + " " + nextNode.value.board.queens.size + " " + nextNode.value.board.queens)
-        if(nextNode.value.board.queens.size == 8) {
+        if(i % 1000 == 0) {
+          println(i + " " + nextNode.board.queens.size + " " + nextNode.board.queens)
+        }
+        if(nextNode.board.queens.size == 8) {
+          println(i + " " + nextNode.board.queens.size + " " + nextNode.board.queens)
           println("FOUND ONE")
           break
         }
-        currentNode = nextNode.value
+        currentNode = nextNode
+        i = i + 1
       }
     }
   }

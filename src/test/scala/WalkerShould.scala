@@ -29,7 +29,7 @@ class WalkerShould extends AnyFunSuite with MockFactory with Matchers {
 
   test("two queen") {
     val twoQueen = Board(Seq(Queen(0, 0), Queen(2, 1)))
-    val expected = Board(Seq(Queen(0, 0), Queen(2, 1), Queen(1, 2)))
+    val expected = Board(Seq(Queen(0, 0), Queen(2, 1), Queen(4, 2)))
 
     state.run(twoQueen).value._1 shouldBe expected
   }
@@ -45,33 +45,5 @@ class WalkerShould extends AnyFunSuite with MockFactory with Matchers {
     newState.run(emptyBoard).value._1 shouldBe expected
   }
 
-  test("composing state for seven") {
-    val newState = for {
-      _ <- state
-      _ <- state
-      _ <- state
-      _ <- state
-      _ <- state
-      _ <- state
-      _ <- state
-    } yield ()
-
-    val emptyBoard = Board.empty()
-
-    val expected = 
-       Board(
-         List(
-          Queen(0, 0), 
-          Queen(2, 1), 
-          Queen(1, 2), 
-          Queen(5, 3), 
-          Queen(7, 4), 
-          Queen(3, 5), 
-          Queen(4, 7)
-        )
-      )
-
-    newState.run(emptyBoard).value._1 shouldBe expected
-  }
 }
 

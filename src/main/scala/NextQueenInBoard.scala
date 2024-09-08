@@ -17,19 +17,17 @@ class NextQueenInBoard(checker: Checker) {
 
   }
 
-  def nextBoard(board: Board, excluded: Seq[Board] = Seq()): Option[Board] = {
+  val allPosition: Seq[Tuple2[Int, Int]] = for { y <- 0 to 7; x <- 0 to 7 } yield (x, y)
 
-    val allPosition: Seq[Tuple2[Int, Int]] = for { y <- 0 to 7; x <- 0 to 7 } yield (x, y)
+  def nextBoard(board: Board, excluded: Seq[Board] = Seq()): Option[Board] = {
 
     val occupiedPosition = board.queens.map(queen => (queen.x, queen.y))
 
     val positionToCheck = allPosition
       .filter(pos => !occupiedPosition.contains(pos))
-      .map((x, y) => Queen(x, y))
-
 
     positionToCheck
-      .map(queen => Board(board.queens :+ Queen(queen._1, queen._2)))
+      .map((x, y) => Board(board.queens :+ Queen(x, y)))
       .filter(board => !excluded.contains(board))
       .find(board => checker.checkQueens(board.queens))
   }
