@@ -10,9 +10,9 @@ object StateUtilWithRollback {
   val nextQueenInBoard = NextQueenInBoard(checker)
   def nextNode(node: Node): Node = {
     val nextTryiedBoards = node.tryiedBoards :+ node.board
-    nextQueenInBoard.next(node.board) match {
-      case None => Node(node.parent.get.board, node.parent.get.parent, Seq())
-      case Some(found) => Node(node.board.add(found), Some(node), Seq())
+    nextQueenInBoard.nextBoard(node.board, node.tryiedBoards) match {
+      case None => Node(node.parent.get.board, node.parent.get.parent, nextTryiedBoards)
+      case Some(found) => Node(found, Some(node), nextTryiedBoards)
     }
   }
 }
@@ -62,9 +62,8 @@ class WalkerWithRollbackShould extends AnyFunSuite with MockFactory with Matcher
 
     val parentNode = Node(parentBoard, None, Seq())
     val initial = Node(initialBoard, Some(parentNode), Seq())
-    val expected = parentNode
 
-    state.run(initial).value._1 shouldBe expected
+    state.run(initial).value._1.board shouldBe parentBoard
   }
 
   test("composing state for eight") {
@@ -91,20 +90,6 @@ class WalkerWithRollbackShould extends AnyFunSuite with MockFactory with Matcher
           Queen(3, 5), 
         )
       )
-    /*
-    val expectedParent =
-      Some(Node(Board(List(Queen(0, 0), Queen(2, 1), Queen(1, 2), Queen(5, 3), Queen(7, 4))),
-        Some(Node(Board(List(Queen(0, 0), Queen(2, 1), Queen(1, 2), Queen(5, 3))),
-          Some(Node(Board(List(Queen(0, 0), Queen(2, 1), Queen(1, 2))),
-            Some(Node(Board(List(Queen(0, 0), Queen(2, 1))),
-              Some(Node(Board(List(Queen(0, 0))),
-                Some(Node(Board(List()), None))
-              ))
-            ))
-          ))
-        ))
-    ))
-    */
 
     val initial = Node(emptyBoard, None, Seq())
 
